@@ -1,6 +1,6 @@
 
 
-const quotes = [
+const originalQquotes = [
     { quote: 'The night is darkest just before the dawn. And I promise you, the dawn is coming.', author: 'Harvey Dent, The Dark Knight' },
     { quote: 'I believe what doesn’t kill you simply makes you, stranger.', author: 'The Joker, The Dark Knight' },
     { quote: 'Your anger gives you great power. But if you let it, it will destroy you… As it almost did me', author: 'Henri Ducard, Batman Begins' },
@@ -9,23 +9,38 @@ const quotes = [
     { quote: 'Yes, father. I shall become a bat.', author: 'Bruce Wayne/Batman, Batman: Year One' },
 ]
 
-const { createApp, ref } = Vue;
+const { createApp, ref, computed } = Vue;
 
 
 const app = createApp({
 
     setup(){
 
-        const showAuthor = ref(true);
+        const showAuthor = ref( false );
+        const quotes     = ref(originalQquotes)
+
+        const newMessage = ref ('')
+
+        const totalQuotes = computed ( () => {
+            return quotes.value.length;
+        } );
 
         const toggleAuthor = () => {
             showAuthor.value = !showAuthor.value;
         }
 
+        const addQuote = () => {
+            quotes.value.unshift({ quote: newMessage.value, author: 'Jesus Solis' })
+            newMessage.value = ''
+        }
+
         return {
+            addQuote,
+            newMessage,
             quotes,
             showAuthor,
-            toggleAuthor
+            toggleAuthor,
+            totalQuotes,
         }
     }
 
