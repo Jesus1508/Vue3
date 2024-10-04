@@ -14,27 +14,24 @@
 import type { ChatMessage } from '@/interfaces/chat-message.interface';
 
 import ChatBubble from './ChatBubble.vue';
-import { ref, nextTick, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 
 interface Props {
     messages: ChatMessage[];
 }
 
-interface Props {
-    messages: ChatMessage[];
-}
-
-const { messages } = defineProps<Props>();
+const props = defineProps<Props>();
 
 const chatRef = ref<HTMLDivElement | null>(null);
 
 // Estar pendiente de los cambios en los props.
-watchEffect(async () => {
-    console.log('Mensajes: ' + messages.length);
-    await nextTick();
-    chatRef.value?.scrollTo({
-        top: chatRef.value.scrollHeight,
-        behavior: 'smooth',
-    });
+watch(props, () => {
+    console.log('se disparó el ipdate messages');
+    setTimeout(() => {
+        chatRef.value?.scrollTo({
+            top: chatRef.value.scrollHeight,
+            behavior: 'smooth',
+        });
+    }, 100);
 });
 </script>
