@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import ChatBubble from '@/components/chat/ChatBubble.vue';
+import { describe, expect, test } from 'vitest';
 
 describe('<ChatBubble />', () => {
     test('renders own message correctly', () => {

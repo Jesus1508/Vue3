@@ -13,7 +13,7 @@ export const useChat = () => {
     };
 
     const onMessage = async (text: string) => {
-        if (text.length == 0) return;
+        if (text.length === 0) return;
 
         messages.value.push({
             id: new Date().getTime(),

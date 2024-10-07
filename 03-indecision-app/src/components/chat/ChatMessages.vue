@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import type { ChatMessage } from '@/interfaces/chat-message.interface';
-
 import ChatBubble from './ChatBubble.vue';
 import { ref, watch } from 'vue';
 
@@ -26,7 +25,6 @@ const chatRef = ref<HTMLDivElement | null>(null);
 
 // Estar pendiente de los cambios en los props.
 watch(props, () => {
-    console.log('se disparó el ipdate messages');
     setTimeout(() => {
         chatRef.value?.scrollTo({
             top: chatRef.value.scrollHeight,
