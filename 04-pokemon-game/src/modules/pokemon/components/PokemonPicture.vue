@@ -1,4 +1,4 @@
- <template>
+<template>
     <section>
         <img 
             v-if="!showPokemon"
@@ -14,10 +14,10 @@
             alt="pokemon image"
         >
     </section>
- </template>
- 
- <script lang="ts" setup>
-import { computed } from 'vue';
+</template>
+
+<script lang="ts" setup>
+    import { computed } from 'vue';
 
     
     interface Props {
@@ -33,9 +33,9 @@ import { computed } from 'vue';
         () => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${ props.pokemonId }.svg`
     )
 
- </script>
- 
- <style scoped>
+</script>
+
+<style scoped>
     img {
         user-select: none;
         -moz-user-select: none;
@@ -43,4 +43,4 @@ import { computed } from 'vue';
         -webkit-user-drag: none;
         -webkit-user-select: none;
     }
- </style>
+</style>
