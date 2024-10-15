@@ -10,7 +10,7 @@
         marginwidth="0"
         title="map"
         scrolling="no"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2805.8060867390004!2d-75.8954085!3d45.3123426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccdff8d9fa54cf3%3A0x531d6f418abf0ad4!2sZ3%20Specialty%20Coffee!5e0!3m2!1ses!2sca!4v1712948392333!5m2!1ses!2sca"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3820.789200755568!2d-92.63904072420644!3d16.737366621204153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ed453c36cebad7%3A0x9a8c3d868e6c8b12!2sAgencia%20OTISA%20-%20Operadores%20Tur%C3%ADsticos%20Internacionales!5e0!3m2!1ses-419!2smx!4v1729035824821!5m2!1ses-419!2smx"
         style=""
       ></iframe>
     </div>
