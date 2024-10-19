@@ -21,7 +21,14 @@
         </table>
     </div>
 
-    <InputModal :open="modalOpen" @close="modalOpen = false"/>
+    <InputModal 
+        :open="modalOpen" 
+        @close="modalOpen = false"
+        @value="onNewValue" 
+        placeholder="Ingrese el nombre del proyecto"
+        title="Nuevo proyecto"
+        sub-title="Dale un nombre único al proyecto"
+    />
 
     <fab-button @click="modalOpen = true">
         <AddCircle />
@@ -35,4 +42,9 @@ import AddCircle from '@/modules/common/icons/AddCircle.vue';
 import { ref } from 'vue';
 
 const modalOpen = ref(false);
+
+
+const onNewValue = (projectName:string) => {
+    console.log({projectName});
+}
 </script>
