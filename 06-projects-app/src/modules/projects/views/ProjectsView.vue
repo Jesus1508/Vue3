@@ -11,12 +11,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(project, index) in projectsStore.projectList" :key="project.id" class="hover">
+                <tr v-for="(project, index) in projectsStore.projectWithCompletion" :key="project.id" class="hover">
                     <th>{{ index + 1 }}</th>
-                    <td>{{ project.name }}</td>
-                    <td>{{ project.tasks.length }}</td>
                     <td>
-                        <progress class="progress progress-primary w-56" value="10" max="100" />
+                        <span @dbclick="console.log('dbclick')">{{ project.name }}</span>
+                    </td>
+                    <td>{{ project.taskCount }}</td>
+                    <td>
+                        <progress class="progress progress-primary w-56" :value="project.completion" max="100" />
+                        {{ project.completion }}
                     </td>
                 </tr>
             </tbody>

@@ -1,6 +1,10 @@
 <template>
     <aside class="bg-base-200 w-72 min-h-screen">
-        <h2 class="text-lg font-bold max-h-4">Proyectos</h2>
+        <h2 class="text-lg font-bold max-h-4">
+            <RouterLink to="/">
+                Proyectos
+            </RouterLink>
+        </h2>
         <p 
             v-if="projectsStore.noProjects"
             class="text-sm text-gray-500 my-4 mx-4"
