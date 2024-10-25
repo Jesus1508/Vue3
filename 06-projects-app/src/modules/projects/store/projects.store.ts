@@ -52,7 +52,7 @@ export const useProjectsStore = defineStore('projects', () => {
         const task = project.tasks.find((t) => t.id == taskId);
         if (!task) return;
 
-        task.completeAt = task.completeAt ? undefined : new Date();
+        task.completedAt = task.completedAt ? undefined : new Date();
     };
 
     return {
@@ -65,7 +65,7 @@ export const useProjectsStore = defineStore('projects', () => {
         projectWithCompletion: computed(() => {
             return projects.value.map((project) => {
                 const total = project.tasks.length;
-                const completed = project.tasks.filter((t) => t.completeAt).length;
+                const completed = project.tasks.filter((t) => t.completedAt).length;
                 const completion = total === 0 ? 0 : (completed / total) * 100;
 
                 return {
