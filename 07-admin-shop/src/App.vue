@@ -1,13 +1,16 @@
 <template>
-  <RouterView />
-  <VueQueryDevtools/>
+  <FullScreenLoader v-if="authStore.isChecking" />
+
+  <RouterView v-else />
+  <VueQueryDevtools />
 </template>
 
 <script lang="ts" setup>
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 import { useAuthStore } from './modules/auth/stores/auth.store';
-import { AuthSatus } from './modules/auth/interfaces';
+import { AuthStatus } from './modules/auth/interfaces';
 import { useRoute, useRouter } from 'vue-router';
+import FullScreenLoader from './modules/common/components/FullScreenLoader.vue';
 
 const authStore = useAuthStore();
 
@@ -16,17 +19,18 @@ const route = useRoute();
 
 authStore.$subscribe(
   (_, state) => {
-    if ( state.authStatus === AuthSatus.Checking){
-      authStore.checkAuthstatus();
+    if (state.authStatus === AuthStatus.Checking) {
+      authStore.checkAuthStatus();
       return;
     }
 
-    if( route.path.includes('/auth') && state.authStatus === AuthSatus.Authenticated){
-      router.replace({name: 'home'})
+    if (route.path.includes('/auth') && state.authStatus === AuthStatus.Authenticated) {
+      router.replace({ name: 'home' });
       return;
     }
-},{
-  immediate: true
-})
-
+  },
+  {
+    immediate: true,
+  },
+);
 </script>

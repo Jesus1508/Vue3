@@ -31,12 +31,16 @@
     <div class="mb-4 flex items-center">
       <input
         v-model="myForm.rememberMe"
-        type="checkbox" id="remember" name="remember" class="text-blue-500" />
+        type="checkbox"
+        id="remember"
+        name="remember"
+        class="text-blue-500"
+      />
       <label for="remember" class="text-gray-600 ml-2">Recordar usuario</label>
     </div>
     <!-- Forgot Password Link -->
     <div class="mb-6 text-blue-500">
-      <a href="#" class="hover:underline">Olvidates la contraseña?</a>
+      <a href="#" class="hover:underline">¿Olvidaste la contraseña?</a>
     </div>
     <!-- Login Button -->
     <button
@@ -59,47 +63,43 @@ import { useToast } from 'vue-toastification';
 
 const authStore = useAuthStore();
 const toast = useToast();
-const emailInputRef = ref<HTMLInputElement|null>(null)
-const passwordInputRef = ref<HTMLInputElement|null>(null)
+
+const emailInputRef = ref<HTMLInputElement | null>(null);
+const passwordInputRef = ref<HTMLInputElement | null>(null);
 
 const myForm = reactive({
   email: '',
   password: '',
-  rememberMe: false
-})
+  rememberMe: false,
+});
 
-const onLogin = async() => {
-
-  if( myForm.email === '' ){
-    return emailInputRef.value?.focus()
+const onLogin = async () => {
+  if (myForm.email === '') {
+    return emailInputRef.value?.focus();
   }
 
-  if( myForm.password.length < 6 ){
-    return passwordInputRef.value?.focus()
+  if (myForm.password.length < 6) {
+    return passwordInputRef.value?.focus();
   }
 
-  if( myForm.rememberMe ){
-    localStorage.setItem('email', myForm.email)
-  }else{
-    localStorage.removeItem('email')
+  if (myForm.rememberMe) {
+    localStorage.setItem('email', myForm.email);
+  } else {
+    localStorage.removeItem('email');
   }
 
-  const ok = await authStore.login(myForm.email, myForm.password)
+  const ok = await authStore.login(myForm.email, myForm.password);
 
-  if( ok ) return;
+  if (ok) return;
 
-  toast.error('Usuario/Contraseña incorrectos')
-
-  console.log({ok})
+  toast.error('Usuario/Contraseña no son correctos');
 };
 
-
-watchEffect( () => {
-  const email = localStorage.getItem('email')
-  if( email ){
+watchEffect(() => {
+  const email = localStorage.getItem('email');
+  if (email) {
     myForm.email = email;
     myForm.rememberMe = true;
   }
-} )
-
+});
 </script>

@@ -1,104 +1,94 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { AuthSatus, type User } from '../interfaces';
+import { AuthStatus, type User } from '../interfaces';
 import { checkAuthAction, loginAction, registerAction } from '../actions';
 import { useLocalStorage } from '@vueuse/core';
 
 export const useAuthStore = defineStore('auth', () => {
-    //Authenticated, unAuthenticated, Checking
+  const authStatus = ref<AuthStatus>(AuthStatus.Checking);
+  const user = ref<User | undefined>();
+  const token = ref(useLocalStorage('token', ''));
 
-    const authStatus = ref<AuthSatus>(AuthSatus.Checking);
-    const user = ref<User | undefined>();
-    const token = ref(useLocalStorage('token', ''));
-
-    const login = async (email: string, password: string) => {
-        try {
-            const loginResp = await loginAction(email, password);
-            if (!loginResp.ok) {
-                logout();
-                return false;
-            }
-
-            user.value = loginResp.user;
-            token.value = loginResp.token;
-            authStatus.value = AuthSatus.Authenticated;
-
-            return true;
-        } catch (error) {
-            console.log(error);
-            return logout();
-        }
-    };
-
-    const register = async (fullName: string, email: string, password: string) => {
-        try {
-            const registerResp = await registerAction(fullName, email, password);
-
-            if (!registerResp.ok) {
-                logout();
-                return {
-                    ok: false,
-                    message: registerResp.message,
-                };
-            }
-
-            user.value = registerResp.user;
-            token.value = registerResp.token;
-            authStatus.value = AuthSatus.Authenticated;
-            return {
-                ok: true,
-                message: '',
-            };
-        } catch (error) {
-            return {
-                ok: false,
-                message: 'Error al registrar el usuario',
-            };
-        }
-    };
-
-    const logout = () => {
-        authStatus.value = AuthSatus.Unauthenticated;
-        user.value = undefined;
-        token.value = '';
+  const login = async (email: string, password: string) => {
+    try {
+      const loginResp = await loginAction(email, password);
+      if (!loginResp.ok) {
+        logout();
         return false;
-    };
+      }
 
-    const checkAuthstatus = async (): Promise<boolean> => {
-        try {
-            const statusResp = await checkAuthAction();
+      user.value = loginResp.user;
+      token.value = loginResp.token;
+      authStatus.value = AuthStatus.Authenticated;
 
-            if (!statusResp.ok) {
-                logout();
-                return false;
-            }
+      return true;
+    } catch (error) {
+      return logout();
+    }
+  };
 
-            authStatus.value = AuthSatus.Authenticated;
-            user.value = statusResp.user;
-            token.value = statusResp.token;
-            return true;
-        } catch (error) {
-            logout();
-            return false;
-        }
-    };
+  const register = async (fullName: string, email: string, password: string) => {
+    try {
+      const registerResp = await registerAction(fullName, email, password);
 
-    return {
-        user,
-        token,
-        authStatus,
+      if (!registerResp.ok) {
+        logout();
+        return { ok: false, message: registerResp.message };
+      }
 
-        // Getters
-        isChecking: computed(() => authStatus.value === AuthSatus.Checking),
-        isAuthenticated: computed(() => authStatus.value === AuthSatus.Authenticated),
+      user.value = registerResp.user;
+      token.value = registerResp.token;
+      authStatus.value = AuthStatus.Authenticated;
 
-        // Todo: getter para saber si es Admin o no
+      return { ok: true, message: '' };
+    } catch (error) {
+      return { ok: false, message: 'Error al registrar el usuario' };
+    }
+  };
 
-        username: computed(() => user.value?.fullName),
+  const logout = () => {
+    localStorage.removeItem('token')
 
-        // Actions
-        login,
-        register,
-        checkAuthstatus,
-    };
+    authStatus.value = AuthStatus.Unauthenticated;
+    user.value = undefined;
+    token.value = '';
+    return false;
+  };
+
+  const checkAuthStatus = async (): Promise<boolean> => {
+    try {
+      const statusResp = await checkAuthAction();
+
+      if (!statusResp.ok) {
+        logout();
+        return false;
+      }
+
+      authStatus.value = AuthStatus.Authenticated;
+      user.value = statusResp.user;
+      token.value = statusResp.token;
+      return true;
+    } catch (error) {
+      logout();
+      return false;
+    }
+  };
+
+  return {
+    user,
+    token,
+    authStatus,
+
+    // Getters
+    isChecking: computed(() => authStatus.value === AuthStatus.Checking),
+    isAuthenticated: computed(() => authStatus.value === AuthStatus.Authenticated),
+    isAdmin: computed(() => user.value?.roles.includes('admin') ?? false),
+    username: computed(() => user.value?.fullName),
+
+    // Actions
+    login,
+    logout,
+    register,
+    checkAuthStatus,
+  };
 });
