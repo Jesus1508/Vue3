@@ -1,2 +1,2 @@
 # Vue3
-Curso de Vue2024
+Repaso de Vue 2024
