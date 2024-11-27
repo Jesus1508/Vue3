@@ -20,7 +20,7 @@ export default defineComponent({
 
             const map = new mapboxgl.Map({
                 container: mapElement.value,
-                style: 'mapbox://styles/mapbox/dark-v10', 
+                style: 'mapbox://styles/mapbox/light-v10', 
                 center: userLocation.value, 
                 zoom: 15, 
             });
